@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -37,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'social_django',
+
     'store',
 ]
 
@@ -56,7 +61,7 @@ ROOT_URLCONF = 'test_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,6 +88,7 @@ DATABASES = {
 }
 
 AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -123,4 +129,10 @@ REST_FRAMEWORK = {
 
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
+GITHUB_SECRET = os.getenv('GITHUB_SECRET')
+
+SOCIAL_AUTH_GITHUB_KEY = 'Ov23li7PDSgP9U0gU892'
+SOCIAL_AUTH_GITHUB_SECRET = GITHUB_SECRET
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+SOCIAL_AUTH_GITHUB_REDIRECT_URI = 'http://localhost:8000/complete/github/'
