@@ -2,11 +2,13 @@ from rest_framework.test import APITestCase
 from django.urls import reverse
 from store.models import Book
 from store.serializers import BookSerializer
+from django.contrib.auth.models import User
 
 class BooksApiTestCase(APITestCase):
 
     def setUp(self):
-        self.book_1 = Book.objects.create(name='book 1', price="25.00", author_name="Author 1")
+        self.user = User.objects.create(username="test_username")
+        self.book_1 = Book.objects.create(name='book 1', price="25.00", author_name="Author 1", owner=self.user)
         self.book_2 = Book.objects.create(name='book 2', price="35.00", author_name="Author 5")
         self.book_3 = Book.objects.create(name='book Author 1', price="35.00", author_name="Author 2")
 
